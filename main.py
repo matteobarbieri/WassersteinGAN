@@ -46,6 +46,14 @@ if __name__=="__main__":
     parser.add_argument('--n_extra_layers', type=int, default=0, help='Number of extra layers on gen and disc')
     parser.add_argument('--experiment', default=None, help='Where to store samples and models')
     parser.add_argument('--adam', action='store_true', help='Whether to use adam (default is rmsprop)')
+
+    parser.add_argument(
+            '--checkpoint_frequency', 
+            type=int, 
+            default=10,
+            help='Every how many epochs save checkpoint on disk.'
+    )
+
     opt = parser.parse_args()
     print(opt)
 
@@ -238,5 +246,6 @@ if __name__=="__main__":
                 vutils.save_image(fake.data, '{0}/fake_samples_{1}.png'.format(opt.experiment, gen_iterations))
 
         # do checkpointing
-        torch.save(netG.state_dict(), '{0}/netG_epoch_{1}.pth'.format(opt.experiment, epoch))
-        torch.save(netD.state_dict(), '{0}/netD_epoch_{1}.pth'.format(opt.experiment, epoch))
+        if (epoch + 1) % opt.checkpoint_frequency == 0:
+            torch.save(netG.state_dict(), '{0}/netG_epoch_{1}.pth'.format(opt.experiment, epoch))
+            torch.save(netD.state_dict(), '{0}/netD_epoch_{1}.pth'.format(opt.experiment, epoch))
