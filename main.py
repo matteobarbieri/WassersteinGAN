@@ -249,3 +249,5 @@ if __name__=="__main__":
         if (epoch + 1) % opt.checkpoint_frequency == 0:
             torch.save(netG.state_dict(), '{0}/netG_epoch_{1}.pth'.format(opt.experiment, epoch))
             torch.save(netD.state_dict(), '{0}/netD_epoch_{1}.pth'.format(opt.experiment, epoch))
+
+    torch.save(netG.state_dict(), '{0}/netG_latest.pth'.format(opt.experiment))
